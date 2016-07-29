@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery.post demo</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+ <button id="b1" type="button">Categorias json</button>
+ <button id="b3" type="button">Categorias xml</button>
+ <button id="b2" type="button">Usuario json</button>
+<div id="result"></div>
+ 
+<script>
+$(document).ready(function(){
+ $("#b1").click(function(){
+    console.log( "click 1" );
+     $.ajax({
+       url: 'http://localhost:8080/SomosGlobal/webresources/com.somosglobal.rest.categoria',
+       type: 'GET',//POST
+       dataType: 'json',
+   //    data: 'extraparam=45869159&another=32',
+       success: function (data) {
+           console.log( data );
+           //handle the returned data
+       }
+   });
+  });
+
+        $("#b3").click(function(){
+    console.log( "click 1" );
+     $.ajax({
+       url: 'http://localhost:8080/SomosGlobal/webresources/com.somosglobal.rest.categoria',
+       type: 'GET',//POST
+       dataType: 'xml',
+   //    data: 'extraparam=45869159&another=32',
+       success: function (data) {
+           console.log( data );
+           //handle the returned data
+       }
+   });
+  });
+
+$("#b2").click(function(){
+    console.log( "click 2" );
+     $.ajax({
+       url: 'http://localhost:8080/SomosGlobal/webresources/com.somosglobal.rest.usuario',
+       type: 'GET',//POST
+       dataType: 'json',
+   //    data: 'extraparam=45869159&another=32',
+       success: function (data) {
+           console.log( data );
+           //handle the returned data
+       }
+   });
+  });  
+  
+  
+});
+</script>
+ 
+</body>
+</html>
