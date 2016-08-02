@@ -6,7 +6,6 @@
 package com.somosglobal.rest.service;
 
 import com.somosglobal.entities.Usuario;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -61,19 +60,29 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public String jsonFind(@PathParam("id") Integer id) {
-        return objToJson(super.find(id));
+//        return objToJson(super.find(id));
         
-//        return super.find(id);
+        return objToJson( super.find(id) );
         
     }
 
+    @GET
+    @Override
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Usuario> findAll() {
+//        Query q = em.createNamedQuery("Categoria.findCategoriaPadre");
+//        return  q.getResultList();
+        return super.findAll();
+    }
+
+    /*
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public String jsonFindAll() {
 //        return objToJson( super.findAll() );
         Query q = em.createNamedQuery("Usuario.findAll");
         return objToJson( q.getResultList());
-    }
+    }*/
 
     @GET
     @Path("{from}/{to}")

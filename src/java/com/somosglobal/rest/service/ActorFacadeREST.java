@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -31,6 +32,7 @@ public class ActorFacadeREST extends AbstractFacade<Actor> {
     @PersistenceContext(unitName = "SomosGlobalPU")
     private EntityManager em;
 
+    
     public ActorFacadeREST() {
         super(Actor.class);
     }
@@ -60,6 +62,15 @@ public class ActorFacadeREST extends AbstractFacade<Actor> {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Actor find(@PathParam("id") Integer id) {
         return super.find(id);
+    }
+    @GET
+    @Path("actor/{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Actor> findByCategory(@PathParam("id") String id) {
+        Query q = em.createNamedQuery("Actor.findByCatId");
+        q.setParameter("catId", id) ;        
+        List<Actor> actors =  q.getResultList();
+        return actors;
     }
 
     @GET

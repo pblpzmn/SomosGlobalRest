@@ -9,11 +9,14 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,8 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "CatalogoGen.findByUsrModCg", query = "SELECT c FROM CatalogoGen c WHERE c.usrModCg = :usrModCg"),
     @NamedQuery(name = "CatalogoGen.findByFecCreaCg", query = "SELECT c FROM CatalogoGen c WHERE c.fecCreaCg = :fecCreaCg"),
     @NamedQuery(name = "CatalogoGen.findByFecModCg", query = "SELECT c FROM CatalogoGen c WHERE c.fecModCg = :fecModCg"),
-    @NamedQuery(name = "CatalogoGen.findByRef02Cg", query = "SELECT c FROM CatalogoGen c WHERE c.ref02Cg = :ref02Cg"),
-    @NamedQuery(name = "CatalogoGen.findByIdCgPadre", query = "SELECT c FROM CatalogoGen c WHERE c.idCgPadre = :idCgPadre")})
+    @NamedQuery(name = "CatalogoGen.findByRef02Cg", query = "SELECT c FROM CatalogoGen c WHERE c.ref02Cg = :ref02Cg")})
 public class CatalogoGen implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -75,10 +77,15 @@ public class CatalogoGen implements Serializable {
     @Size(max = 25)
     @Column(name = "ref02_cg")
     private String ref02Cg;
-    @Column(name = "id_cg_padre")
-    private Integer idCgPadre;
-    @OneToMany(mappedBy = "idCg")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCg")
     private Collection<ActorReferencia> actorReferenciaCollection;
+    @OneToMany(mappedBy = "idCgPadre")
+    private Collection<CatalogoGen> catalogoGenCollection;
+    @JoinColumn(name = "id_cg_padre", referencedColumnName = "id_cg")
+    @ManyToOne
+    private CatalogoGen idCgPadre;
+    @OneToMany(mappedBy = "idCg")
+    private Collection<ActorRol> actorRolCollection;
 
     public CatalogoGen() {
     }
@@ -159,14 +166,6 @@ public class CatalogoGen implements Serializable {
         this.ref02Cg = ref02Cg;
     }
 
-    public Integer getIdCgPadre() {
-        return idCgPadre;
-    }
-
-    public void setIdCgPadre(Integer idCgPadre) {
-        this.idCgPadre = idCgPadre;
-    }
-
     @XmlTransient
     public Collection<ActorReferencia> getActorReferenciaCollection() {
         return actorReferenciaCollection;
@@ -174,6 +173,32 @@ public class CatalogoGen implements Serializable {
 
     public void setActorReferenciaCollection(Collection<ActorReferencia> actorReferenciaCollection) {
         this.actorReferenciaCollection = actorReferenciaCollection;
+    }
+
+    @XmlTransient
+    public Collection<CatalogoGen> getCatalogoGenCollection() {
+        return catalogoGenCollection;
+    }
+
+    public void setCatalogoGenCollection(Collection<CatalogoGen> catalogoGenCollection) {
+        this.catalogoGenCollection = catalogoGenCollection;
+    }
+
+    public CatalogoGen getIdCgPadre() {
+        return idCgPadre;
+    }
+
+    public void setIdCgPadre(CatalogoGen idCgPadre) {
+        this.idCgPadre = idCgPadre;
+    }
+
+    @XmlTransient
+    public Collection<ActorRol> getActorRolCollection() {
+        return actorRolCollection;
+    }
+
+    public void setActorRolCollection(Collection<ActorRol> actorRolCollection) {
+        this.actorRolCollection = actorRolCollection;
     }
 
     @Override
@@ -198,7 +223,7 @@ public class CatalogoGen implements Serializable {
 
     @Override
     public String toString() {
-        return "com.somosglobal.rest.CatalogoGen[ idCg=" + idCg + " ]";
+        return "com.somosglobal.entities.CatalogoGen[ idCg=" + idCg + " ]";
     }
     
 }

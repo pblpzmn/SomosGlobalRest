@@ -5,7 +5,7 @@
  */
 package com.somosglobal.rest.service;
 
-import com.somosglobal.entities.Persona;
+import com.somosglobal.entities.ParametrosGen;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -13,7 +13,6 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -26,54 +25,54 @@ import javax.ws.rs.core.MediaType;
  * @author Paflo
  */
 @Stateless
-@Path("com.somosglobal.rest.persona")
-public class PersonaFacadeREST extends AbstractFacade<Persona> {
+@Path("com.somosglobal.rest.parametrosgen")
+public class ParametrosGenFacadeREST extends AbstractFacade<ParametrosGen> {
 
     @PersistenceContext(unitName = "SomosGlobalPU")
     private EntityManager em;
 
-    public PersonaFacadeREST() {
-        super(Persona.class);
+    public ParametrosGenFacadeREST() {
+        super(ParametrosGen.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Persona entity) {
+    public void create(ParametrosGen entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, Persona entity) {
+    public void edit(@PathParam("id") String id, ParametrosGen entity) {
         super.edit(entity);
     }
 
     @DELETE
     @Path("{id}")
-    public void remove(@PathParam("id") Integer id) {
+    public void remove(@PathParam("id") String id) {
         super.remove(super.find(id));
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Persona find(@PathParam("id") Integer id) {
+    public ParametrosGen find(@PathParam("id") String id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Persona> findAll() {
+    public List<ParametrosGen> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Persona> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<ParametrosGen> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 

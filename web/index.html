@@ -6,18 +6,39 @@
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
- <button id="b1" type="button">Categorias json</button>
- <button id="b3" type="button">Categorias xml</button>
- <button id="b2" type="button">Usuario json</button>
+ <button id="categoriasJson" type="button">Lista Categorias json</button>
+ </br>
+ <button id="categoriasGjson" type="button">Lista Categorias Gjson</button>
+ </br>
+ <button id="usuariosJson" type="button">Lista Usuarios json</button>
+
+ 
+ </br>
+ <button id="userCreate" type="button">Usuario create</button>
+ </br>
+ 
 <div id="result"></div>
  
 <script>
 $(document).ready(function(){
- $("#b1").click(function(){
-    console.log( "click 1" );
+    
+ $("#categoriasJson").click(function(){
+    console.log( "todas las categoriasJson" );
      $.ajax({
        url: 'http://localhost:8080/SomosGlobal/webresources/com.somosglobal.rest.categoria',
        type: 'GET',//POST
+       dataType: 'json',
+       success: function (data) {
+           console.log( data );
+       }
+   });
+  });
+
+ $("#categoriasGjson").click(function(){
+    console.log( "categorias gjson" );
+     $.ajax({
+       url: 'http://localhost:8080/SomosGlobal/webresources/com.somosglobal.rest.categoria/json',
+       type: 'GET',
        dataType: 'json',
    //    data: 'extraparam=45869159&another=32',
        success: function (data) {
@@ -27,22 +48,8 @@ $(document).ready(function(){
    });
   });
 
-        $("#b3").click(function(){
-    console.log( "click 1" );
-     $.ajax({
-       url: 'http://localhost:8080/SomosGlobal/webresources/com.somosglobal.rest.categoria',
-       type: 'GET',//POST
-       dataType: 'xml',
-   //    data: 'extraparam=45869159&another=32',
-       success: function (data) {
-           console.log( data );
-           //handle the returned data
-       }
-   });
-  });
-
-$("#b2").click(function(){
-    console.log( "click 2" );
+ $("#usuariosJson").click(function(){
+    console.log( "lista de los usuarioJson " );
      $.ajax({
        url: 'http://localhost:8080/SomosGlobal/webresources/com.somosglobal.rest.usuario',
        type: 'GET',//POST
@@ -55,6 +62,32 @@ $("#b2").click(function(){
    });
   });  
   
+  
+  
+ var usuario = {"usrEstado": "ok", "usrNombre": "test post3", "usrPassword": "123", "prfId": {"prfId":3, "prfNombre": "CONSUMIDOR"} , idAct: {"idAct":1} };
+ $("#userCreate").click(function(){
+    console.log( "user_create" );
+     
+        $.ajax({
+        headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' 
+        },
+       url: 'http://localhost:8080/SomosGlobal/webresources/com.somosglobal.rest.usuario',
+       type: 'POST',
+       dataType: 'json',
+       data: JSON.stringify( usuario ),
+       success: function (data) {
+        console.log( "success" );   
+        console.log( data );
+           //handle the returned data
+       },
+       failure: function(errMsg) {
+           console.log( data );
+          console.log( errMsg );
+       }
+   });
+ });   
   
 });
 </script>

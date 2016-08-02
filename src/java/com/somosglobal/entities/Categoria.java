@@ -28,6 +28,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "categoria")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Categoria.findCategoriaPadre", query = "SELECT c FROM Categoria c  WHERE LENGTH(c.catId) =2 "),//, LENGTH(c.catId) as longitud
+    @NamedQuery(name = "Categoria.findSubCategoriaNivel1", query = "SELECT c FROM Categoria c  WHERE LENGTH(c.catId) =4 "),//, LENGTH(c.catId) as longitud
+    @NamedQuery(name = "Categoria.findSubCategoriaNivel2", query = "SELECT c FROM Categoria c  WHERE LENGTH(c.catId) =6 "),//, LENGTH(c.catId) as longitud
     @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c"),
     @NamedQuery(name = "Categoria.findByCatId", query = "SELECT c FROM Categoria c WHERE c.catId = :catId"),
     @NamedQuery(name = "Categoria.findByCatEstado", query = "SELECT c FROM Categoria c WHERE c.catEstado = :catEstado"),
@@ -53,8 +56,6 @@ public class Categoria implements Serializable {
     private String catImagen;
     @OneToMany(mappedBy = "catId")
     private Collection<Actor> actorCollection;
-    @OneToMany(mappedBy = "catId")
-    private Collection<LocalVenta> localVentaCollection;
 
     public Categoria() {
     }
@@ -104,15 +105,6 @@ public class Categoria implements Serializable {
         this.actorCollection = actorCollection;
     }
 
-    @XmlTransient
-    public Collection<LocalVenta> getLocalVentaCollection() {
-        return localVentaCollection;
-    }
-
-    public void setLocalVentaCollection(Collection<LocalVenta> localVentaCollection) {
-        this.localVentaCollection = localVentaCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -135,7 +127,7 @@ public class Categoria implements Serializable {
 
     @Override
     public String toString() {
-        return "com.somosglobal.rest.Categoria[ catId=" + catId + " ]";
+        return "com.somosglobal.entities.Categoria[ catId=" + catId + " ]";
     }
     
 }

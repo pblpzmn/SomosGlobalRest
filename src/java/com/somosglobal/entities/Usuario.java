@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,21 +31,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "usuario")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Usuario.findAll", query = "SELECT u.usrNombre, u.usrId FROM Usuario u "),
+    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
     @NamedQuery(name = "Usuario.findByUsrId", query = "SELECT u FROM Usuario u WHERE u.usrId = :usrId"),
     @NamedQuery(name = "Usuario.findByUsrEstado", query = "SELECT u FROM Usuario u WHERE u.usrEstado = :usrEstado"),
     @NamedQuery(name = "Usuario.findByUsrPassword", query = "SELECT u FROM Usuario u WHERE u.usrPassword = :usrPassword"),
     @NamedQuery(name = "Usuario.findByUsrNombre", query = "SELECT u FROM Usuario u WHERE u.usrNombre = :usrNombre"),
-//    @NamedQuery(name = "Usuario.findByUsrFecCrea", query = "SELECT u FROM Usuario u WHERE u.usrFecCrea = :usrFecCrea"),
-//    @NamedQuery(name = "Usuario.findByUsrFecMod", query = "SELECT u FROM Usuario u WHERE u.usrFecMod = :usrFecMod"),
+    @NamedQuery(name = "Usuario.findByUsrFecCrea", query = "SELECT u FROM Usuario u WHERE u.usrFecCrea = :usrFecCrea"),
+    @NamedQuery(name = "Usuario.findByUsrFecMod", query = "SELECT u FROM Usuario u WHERE u.usrFecMod = :usrFecMod"),
     @NamedQuery(name = "Usuario.findByUsrCreadoPor", query = "SELECT u FROM Usuario u WHERE u.usrCreadoPor = :usrCreadoPor"),
     @NamedQuery(name = "Usuario.findByUsrModPor", query = "SELECT u FROM Usuario u WHERE u.usrModPor = :usrModPor"),
-    @NamedQuery(name = "Usuario.findByUsrNombre2", query = "SELECT u FROM Usuario u WHERE u.usrNombre2 = :usrNombre2")})
+    @NamedQuery(name = "Usuario.findByUsrNombre2", query = "SELECT u FROM Usuario u WHERE u.usrNombre2 = :usrNombre2"),
+    @NamedQuery(name = "Usuario.findByUsrCambiaPassword", query = "SELECT u FROM Usuario u WHERE u.usrCambiaPassword = :usrCambiaPassword")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "usr_id")
     private Integer usrId;
@@ -59,14 +59,12 @@ public class Usuario implements Serializable {
     @Size(max = 50)
     @Column(name = "usr_nombre")
     private String usrNombre;
-   /*
     @Column(name = "usr_fec_crea")
     @Temporal(TemporalType.TIMESTAMP)
     private Date usrFecCrea;
     @Column(name = "usr_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date usrFecMod;
-*/
     @Size(max = 25)
     @Column(name = "usr_creado_por")
     private String usrCreadoPor;
@@ -76,13 +74,14 @@ public class Usuario implements Serializable {
     @Size(max = 100)
     @Column(name = "usr_nombre2")
     private String usrNombre2;
-    
+    @Size(max = 1)
+    @Column(name = "usr_cambia_password")
+    private String usrCambiaPassword;
     @JoinColumn(name = "id_act", referencedColumnName = "id_act")
-    @ManyToOne( fetch=FetchType.LAZY )
+    @ManyToOne
     private Actor idAct;
-    
-    @JoinColumn( name = "prf_id", referencedColumnName = "prf_id")
-    @ManyToOne(fetch=FetchType.LAZY )
+    @JoinColumn(name = "prf_id", referencedColumnName = "prf_id")
+    @ManyToOne(optional = false)
     private Perfil prfId;
 
     public Usuario() {
@@ -123,7 +122,7 @@ public class Usuario implements Serializable {
     public void setUsrNombre(String usrNombre) {
         this.usrNombre = usrNombre;
     }
-/*
+
     public Date getUsrFecCrea() {
         return usrFecCrea;
     }
@@ -139,7 +138,7 @@ public class Usuario implements Serializable {
     public void setUsrFecMod(Date usrFecMod) {
         this.usrFecMod = usrFecMod;
     }
-*/
+
     public String getUsrCreadoPor() {
         return usrCreadoPor;
     }
@@ -162,6 +161,14 @@ public class Usuario implements Serializable {
 
     public void setUsrNombre2(String usrNombre2) {
         this.usrNombre2 = usrNombre2;
+    }
+
+    public String getUsrCambiaPassword() {
+        return usrCambiaPassword;
+    }
+
+    public void setUsrCambiaPassword(String usrCambiaPassword) {
+        this.usrCambiaPassword = usrCambiaPassword;
     }
 
     public Actor getIdAct() {
@@ -202,7 +209,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.somosglobal.rest.Usuario[ usrId=" + usrId + " ]";
+        return "com.somosglobal.entities.Usuario[ usrId=" + usrId + " ]";
     }
     
 }

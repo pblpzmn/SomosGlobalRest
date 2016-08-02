@@ -5,7 +5,7 @@
  */
 package com.somosglobal.rest.service;
 
-import com.somosglobal.entities.LocalPromocion;
+import com.somosglobal.entities.ActorRol;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,27 +25,27 @@ import javax.ws.rs.core.MediaType;
  * @author Paflo
  */
 @Stateless
-@Path("com.somosglobal.rest.localpromocion")
-public class LocalPromocionFacadeREST extends AbstractFacade<LocalPromocion> {
+@Path("com.somosglobal.rest.actorrol")
+public class ActorRolFacadeREST extends AbstractFacade<ActorRol> {
 
     @PersistenceContext(unitName = "SomosGlobalPU")
     private EntityManager em;
 
-    public LocalPromocionFacadeREST() {
-        super(LocalPromocion.class);
+    public ActorRolFacadeREST() {
+        super(ActorRol.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(LocalPromocion entity) {
+    public void create(ActorRol entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, LocalPromocion entity) {
+    public void edit(@PathParam("id") Integer id, ActorRol entity) {
         super.edit(entity);
     }
 
@@ -58,21 +58,21 @@ public class LocalPromocionFacadeREST extends AbstractFacade<LocalPromocion> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public LocalPromocion find(@PathParam("id") Integer id) {
+    public ActorRol find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<LocalPromocion> findAll() {
+    public List<ActorRol> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<LocalPromocion> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<ActorRol> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 

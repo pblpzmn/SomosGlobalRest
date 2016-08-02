@@ -52,6 +52,8 @@ public class Perfil implements Serializable {
     @Size(max = 2)
     @Column(name = "prf_codigo")
     private String prfCodigo;
+    @OneToMany(mappedBy = "prfId")
+    private Collection<MenuPerfil> menuPerfilCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prfId")
     private Collection<Usuario> usuarioCollection;
 
@@ -95,6 +97,15 @@ public class Perfil implements Serializable {
     }
 
     @XmlTransient
+    public Collection<MenuPerfil> getMenuPerfilCollection() {
+        return menuPerfilCollection;
+    }
+
+    public void setMenuPerfilCollection(Collection<MenuPerfil> menuPerfilCollection) {
+        this.menuPerfilCollection = menuPerfilCollection;
+    }
+
+    @XmlTransient
     public Collection<Usuario> getUsuarioCollection() {
         return usuarioCollection;
     }
@@ -125,7 +136,7 @@ public class Perfil implements Serializable {
 
     @Override
     public String toString() {
-        return "com.somosglobal.rest.Perfil[ prfId=" + prfId + " ]";
+        return "com.somosglobal.entities.Perfil[ prfId=" + prfId + " ]";
     }
     
 }

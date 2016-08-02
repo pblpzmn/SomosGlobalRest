@@ -10,12 +10,14 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -36,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Actor.findAll", query = "SELECT a FROM Actor a"),
+    @NamedQuery(name = "Actor.findByCatId", query = "SELECT a FROM Actor a WHERE a.catId.catId = :catId"),
     @NamedQuery(name = "Actor.findByIdAct", query = "SELECT a FROM Actor a WHERE a.idAct = :idAct"),
     @NamedQuery(name = "Actor.findByTipoAct", query = "SELECT a FROM Actor a WHERE a.tipoAct = :tipoAct"),
     @NamedQuery(name = "Actor.findByActividadAct", query = "SELECT a FROM Actor a WHERE a.actividadAct = :actividadAct"),
@@ -45,7 +48,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Actor.findByLogoAct", query = "SELECT a FROM Actor a WHERE a.logoAct = :logoAct"),
     @NamedQuery(name = "Actor.findByFotoAct", query = "SELECT a FROM Actor a WHERE a.fotoAct = :fotoAct"),
     @NamedQuery(name = "Actor.findBySloganAct", query = "SELECT a FROM Actor a WHERE a.sloganAct = :sloganAct"),
-    @NamedQuery(name = "Actor.findByServicioAct", query = "SELECT a FROM Actor a WHERE a.servicioAct = :servicioAct"),
     @NamedQuery(name = "Actor.findByPalabrasClaveAct", query = "SELECT a FROM Actor a WHERE a.palabrasClaveAct = :palabrasClaveAct"),
     @NamedQuery(name = "Actor.findByRankingAct", query = "SELECT a FROM Actor a WHERE a.rankingAct = :rankingAct"),
     @NamedQuery(name = "Actor.findByUsrCreaAct", query = "SELECT a FROM Actor a WHERE a.usrCreaAct = :usrCreaAct"),
@@ -99,7 +101,8 @@ public class Actor implements Serializable {
     @Size(max = 200)
     @Column(name = "slogan_act")
     private String sloganAct;
-    @Size(max = 255)
+    @Lob
+    @Size(max = 16777215)
     @Column(name = "servicio_act")
     private String servicioAct;
     @Size(max = 200)
@@ -164,7 +167,7 @@ public class Actor implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "porcentaje_act")
     private BigDecimal porcentajeAct;
-    @OneToMany(mappedBy = "idAct")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAct")
     private Collection<ActorReferencia> actorReferenciaCollection;
     @OneToMany(mappedBy = "idActPadre")
     private Collection<Actor> actorCollection;
@@ -180,6 +183,8 @@ public class Actor implements Serializable {
     @JoinColumn(name = "loc_id", referencedColumnName = "loc_id")
     @ManyToOne
     private Localidad locId;
+    @OneToMany(mappedBy = "idAct")
+    private Collection<ActorRol> actorRolCollection;
     @OneToMany(mappedBy = "idAct")
     private Collection<Usuario> usuarioCollection;
 
@@ -489,6 +494,15 @@ public class Actor implements Serializable {
     }
 
     @XmlTransient
+    public Collection<ActorRol> getActorRolCollection() {
+        return actorRolCollection;
+    }
+
+    public void setActorRolCollection(Collection<ActorRol> actorRolCollection) {
+        this.actorRolCollection = actorRolCollection;
+    }
+
+    @XmlTransient
     public Collection<Usuario> getUsuarioCollection() {
         return usuarioCollection;
     }
@@ -519,7 +533,7 @@ public class Actor implements Serializable {
 
     @Override
     public String toString() {
-        return "com.somosglobal.rest.Actor[ idAct=" + idAct + " ]";
+        return "com.somosglobal.entities.Actor[ idAct=" + idAct + " ]";
     }
     
 }

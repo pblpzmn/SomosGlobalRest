@@ -71,23 +71,19 @@ public abstract class AbstractFacade<T> {
     }
     
     public String objToJson(Object ob){
-//        
-//        List<Task> list = new ArrayList<Task>();
-//        for (int i = 0; i < 20; i++) {
-//            list.add(new Task(i, "Test1", "Test2", Task.Status.ASSIGNED, 10));
-//        }
-        
         Gson gson = new Gson();
-//        Type type = new TypeToken<List<Object>>() {}.getType();
         Type type = new TypeToken<Object>() {}.getType();
         String json = gson.toJson(ob, type);
         System.out.println(json);
-//        List<Object> fromJson = gson.fromJson(json, type);
-
-//        for (Object task : fromJson) {
-//                System.out.println(task);
-//        }
         return json;
+    }
+    
+    public Object jsonToObj(String json, Type objType){
+//        Type type = new TypeToken<List<Object>>() {}.getType();        
+        Gson gson = new Gson();
+        Object fromJson = gson.fromJson(json, objType);
+
+        return fromJson;
     }
     
 }

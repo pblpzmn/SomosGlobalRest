@@ -6,7 +6,6 @@
 package com.somosglobal.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,12 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -51,8 +48,6 @@ public class Barrio implements Serializable {
     @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id")
     @ManyToOne(optional = false)
     private Ciudad ciuId;
-    @OneToMany(mappedBy = "barId")
-    private Collection<Ubicacion> ubicacionCollection;
 
     public Barrio() {
     }
@@ -90,15 +85,6 @@ public class Barrio implements Serializable {
         this.ciuId = ciuId;
     }
 
-    @XmlTransient
-    public Collection<Ubicacion> getUbicacionCollection() {
-        return ubicacionCollection;
-    }
-
-    public void setUbicacionCollection(Collection<Ubicacion> ubicacionCollection) {
-        this.ubicacionCollection = ubicacionCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -121,7 +107,7 @@ public class Barrio implements Serializable {
 
     @Override
     public String toString() {
-        return "com.somosglobal.rest.Barrio[ barId=" + barId + " ]";
+        return "com.somosglobal.entities.Barrio[ barId=" + barId + " ]";
     }
     
 }

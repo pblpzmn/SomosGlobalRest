@@ -6,10 +6,12 @@
 package com.somosglobal.rest.service;
 
 import com.somosglobal.entities.Categoria;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -55,24 +57,51 @@ public class CategoriaFacadeREST extends AbstractFacade<Categoria> {
         super.remove(super.find(id));
     }
 
+//    @GET
+//    @Path("{id}")
+//    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+//    public Categoria find(@PathParam("id") String id) {
+//        return super.find(id);
+//    }
     @GET
-    @Path("{id}")
+    @Path("subcategory/{nivel}/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Categoria find(@PathParam("id") String id) {
-        return super.find(id);
+    public List<Categoria> findAllSubCategory(@PathParam("nivel") String nivel, @PathParam("id") String id) {
+        Query q = null;
+        int subStrinLimit = 0;
+        if (nivel.equals("1")){
+            q = em.createNamedQuery("Categoria.findSubCategoriaNivel1");
+            subStrinLimit = 2;
+        }
+        if (nivel.equals("2")){
+            q = em.createNamedQuery("Categoria.findSubCategoriaNivel2");
+            subStrinLimit = 4;
+        }
+        List<Categoria> cat2 = q.getResultList(); 
+        List<Categoria> cat = new ArrayList<>();
+        for(Categoria c: cat2 ){
+//            System.out.print("id: "+ c.getCatId() );
+            if (c.getCatId().substring(0,subStrinLimit).equals(id)){
+                System.out.println("added: "+ c.getCatId() );
+                cat.add(c);
+            }
+        }
+        
+        return cat;
     }
-    @GET
-    @Path("test")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public String test(@PathParam("id") String id) {
-        return "{ \"id\": \"Crunchify\" }";
-    }
-
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Categoria> findAll() {
-        return super.findAll();
+        Query q = em.createNamedQuery("Categoria.findCategoriaPadre");
+        List<Categoria> cat = q.getResultList();
+        for(Categoria c: cat){
+            System.out.println("id: "+ c.getCatId() );
+                    
+        }
+        
+        return cat;
+//        return super.findAll();
     }
 
     @GET

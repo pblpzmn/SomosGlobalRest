@@ -100,7 +100,7 @@ public class Provincia implements Serializable {
 
     @Override
     public String toString() {
-        return "com.somosglobal.rest.Provincia[ prvId=" + prvId + " ]";
+        return "com.somosglobal.entities.Provincia[ prvId=" + prvId + " ]";
     }
     
 }

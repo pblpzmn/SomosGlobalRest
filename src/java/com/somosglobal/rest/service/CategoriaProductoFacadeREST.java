@@ -5,12 +5,11 @@
  */
 package com.somosglobal.rest.service;
 
-import com.somosglobal.entities.ActorReferencia;
+import com.somosglobal.entities.CategoriaProducto;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -26,27 +25,27 @@ import javax.ws.rs.core.MediaType;
  * @author Paflo
  */
 @Stateless
-@Path("com.somosglobal.rest.actorreferencia")
-public class ActorReferenciaFacadeREST extends AbstractFacade<ActorReferencia> {
+@Path("com.somosglobal.rest.categoriaproducto")
+public class CategoriaProductoFacadeREST extends AbstractFacade<CategoriaProducto> {
 
     @PersistenceContext(unitName = "SomosGlobalPU")
     private EntityManager em;
 
-    public ActorReferenciaFacadeREST() {
-        super(ActorReferencia.class);
+    public CategoriaProductoFacadeREST() {
+        super(CategoriaProducto.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(ActorReferencia entity) {
+    public void create(CategoriaProducto entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, ActorReferencia entity) {
+    public void edit(@PathParam("id") Integer id, CategoriaProducto entity) {
         super.edit(entity);
     }
 
@@ -59,24 +58,21 @@ public class ActorReferenciaFacadeREST extends AbstractFacade<ActorReferencia> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public ActorReferencia find(@PathParam("id") Integer id) {
+    public CategoriaProducto find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
-    @Path("actor/{id}")
+    @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ActorReferencia> findByActorId( @PathParam("id") Integer id) {
-        Query q = em.createNamedQuery("ActorReferencia.findIdAct");
-        q.setParameter("idAct", id) ;        
-        List<ActorReferencia> actorsRef =  q.getResultList();
-        return actorsRef;
+    public List<CategoriaProducto> findAll() {
+        return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ActorReferencia> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<CategoriaProducto> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 

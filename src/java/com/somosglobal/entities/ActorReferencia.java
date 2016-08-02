@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ActorReferencia.findAll", query = "SELECT a FROM ActorReferencia a"),
+    @NamedQuery(name = "ActorReferencia.findIdAct", query = "SELECT a FROM ActorReferencia a WHERE a.idAct.idAct = :idAct"),
     @NamedQuery(name = "ActorReferencia.findByIdAr", query = "SELECT a FROM ActorReferencia a WHERE a.idAr = :idAr"),
     @NamedQuery(name = "ActorReferencia.findByVal1Ar", query = "SELECT a FROM ActorReferencia a WHERE a.val1Ar = :val1Ar"),
     @NamedQuery(name = "ActorReferencia.findByVal2Ar", query = "SELECT a FROM ActorReferencia a WHERE a.val2Ar = :val2Ar"),
@@ -97,10 +98,10 @@ public class ActorReferencia implements Serializable {
     @Column(name = "longitud_ar")
     private String longitudAr;
     @JoinColumn(name = "id_act", referencedColumnName = "id_act")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Actor idAct;
     @JoinColumn(name = "id_cg", referencedColumnName = "id_cg")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private CatalogoGen idCg;
     @OneToMany(mappedBy = "idAr")
     private Collection<Actor> actorCollection;
@@ -271,7 +272,7 @@ public class ActorReferencia implements Serializable {
 
     @Override
     public String toString() {
-        return "com.somosglobal.rest.ActorReferencia[ idAr=" + idAr + " ]";
+        return "com.somosglobal.entities.ActorReferencia[ idAr=" + idAr + " ]";
     }
     
 }

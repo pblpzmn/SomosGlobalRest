@@ -136,7 +136,7 @@ public class Localidad implements Serializable {
 
     @Override
     public String toString() {
-        return "com.somosglobal.rest.Localidad[ locId=" + locId + " ]";
+        return "com.somosglobal.entities.Localidad[ locId=" + locId + " ]";
     }
     
 }

@@ -114,7 +114,7 @@ public class Ciudad implements Serializable {
 
     @Override
     public String toString() {
-        return "com.somosglobal.rest.Ciudad[ ciuId=" + ciuId + " ]";
+        return "com.somosglobal.entities.Ciudad[ ciuId=" + ciuId + " ]";
     }
     
 }

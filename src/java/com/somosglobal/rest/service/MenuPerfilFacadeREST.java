@@ -5,7 +5,7 @@
  */
 package com.somosglobal.rest.service;
 
-import com.somosglobal.entities.LocalVenta;
+import com.somosglobal.entities.MenuPerfil;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,27 +25,27 @@ import javax.ws.rs.core.MediaType;
  * @author Paflo
  */
 @Stateless
-@Path("com.somosglobal.rest.localventa")
-public class LocalVentaFacadeREST extends AbstractFacade<LocalVenta> {
+@Path("com.somosglobal.rest.menuperfil")
+public class MenuPerfilFacadeREST extends AbstractFacade<MenuPerfil> {
 
     @PersistenceContext(unitName = "SomosGlobalPU")
     private EntityManager em;
 
-    public LocalVentaFacadeREST() {
-        super(LocalVenta.class);
+    public MenuPerfilFacadeREST() {
+        super(MenuPerfil.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(LocalVenta entity) {
+    public void create(MenuPerfil entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, LocalVenta entity) {
+    public void edit(@PathParam("id") Integer id, MenuPerfil entity) {
         super.edit(entity);
     }
 
@@ -58,21 +58,21 @@ public class LocalVentaFacadeREST extends AbstractFacade<LocalVenta> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public LocalVenta find(@PathParam("id") Integer id) {
+    public MenuPerfil find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<LocalVenta> findAll() {
+    public List<MenuPerfil> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<LocalVenta> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<MenuPerfil> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 

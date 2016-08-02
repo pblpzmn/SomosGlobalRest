@@ -5,7 +5,7 @@
  */
 package com.somosglobal.rest.service;
 
-import com.somosglobal.entities.Ubicacion;
+import com.somosglobal.entities.Hobbie;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,27 +25,27 @@ import javax.ws.rs.core.MediaType;
  * @author Paflo
  */
 @Stateless
-@Path("com.somosglobal.rest.ubicacion")
-public class UbicacionFacadeREST extends AbstractFacade<Ubicacion> {
+@Path("com.somosglobal.rest.hobbie")
+public class HobbieFacadeREST extends AbstractFacade<Hobbie> {
 
     @PersistenceContext(unitName = "SomosGlobalPU")
     private EntityManager em;
 
-    public UbicacionFacadeREST() {
-        super(Ubicacion.class);
+    public HobbieFacadeREST() {
+        super(Hobbie.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Ubicacion entity) {
+    public void create(Hobbie entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, Ubicacion entity) {
+    public void edit(@PathParam("id") Integer id, Hobbie entity) {
         super.edit(entity);
     }
 
@@ -58,21 +58,21 @@ public class UbicacionFacadeREST extends AbstractFacade<Ubicacion> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Ubicacion find(@PathParam("id") Integer id) {
+    public Hobbie find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Ubicacion> findAll() {
+    public List<Hobbie> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Ubicacion> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Hobbie> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 
