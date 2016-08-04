@@ -5,12 +5,17 @@
  */
 package com.somosglobal.rest.service;
 
+import com.somosglobal.entities.Perfil;
 import com.somosglobal.entities.Usuario;
+import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.SystemException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -32,6 +37,9 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
     @PersistenceContext(unitName = "SomosGlobalPU")
     private EntityManager em;
 
+    @Inject
+    private PerfilFacadeREST perfil;
+    
     public UsuarioFacadeREST() {
         super(Usuario.class);
     }
@@ -40,7 +48,25 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Usuario entity) {
-        super.create(entity);
+        if (entity != null){
+            Query q = em.createNamedQuery("Usuario.findByUsrNombre");
+            q.setParameter("usrNombre", entity.getUsrNombre());
+            Usuario us = null;
+            try{
+                us = (Usuario) q.getSingleResult();
+            }catch(Exception ex){
+                System.err.println("error "+ ex);
+            }
+            if (us == null ){
+                entity.setUsrFecCrea(new Date() );
+                entity.setUsrFecMod(new Date());
+                entity.setPrfId(perfil.findByCodigoPerfil("PC"));
+                super.create(entity);    
+            }else{
+                System.err.println("User name already exits");
+            }
+        }
+        
     }
 
     @PUT
@@ -56,22 +82,29 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
         super.remove(super.find(id));
     }
 
+//    @GET
+//    @Path("{id}")
+//    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+//    public String jsonFind(@PathParam("id") Integer id) {
+////        return objToJson(super.find(id));
+//        
+//        return objToJson( super.find(id) );
+//        
+//    }
+
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public String jsonFind(@PathParam("id") Integer id) {
+    public Usuario find(@PathParam("id") Integer id) {
 //        return objToJson(super.find(id));
-        
-        return objToJson( super.find(id) );
+        return  super.find(id) ;
         
     }
-
+    
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Usuario> findAll() {
-//        Query q = em.createNamedQuery("Categoria.findCategoriaPadre");
-//        return  q.getResultList();
         return super.findAll();
     }
 

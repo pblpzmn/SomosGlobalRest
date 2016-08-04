@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -62,6 +63,20 @@ public class PerfilFacadeREST extends AbstractFacade<Perfil> {
         return super.find(id);
     }
 
+    public Perfil findByCodigoPerfil(String codigo) {
+        Query q = em.createNamedQuery("Perfil.findByPrfCodigo");
+        q.setParameter("prfCodigo", codigo );
+        Perfil perfil = null;
+        try{
+            perfil = (Perfil) q.getSingleResult();
+        }catch(Exception ex){
+            System.out.println("error" + ex);
+        }
+        
+        return perfil;
+    }
+
+    
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
