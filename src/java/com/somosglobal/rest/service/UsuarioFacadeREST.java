@@ -5,17 +5,16 @@
  */
 package com.somosglobal.rest.service;
 
-import com.somosglobal.entities.Perfil;
 import com.somosglobal.entities.Usuario;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.SystemException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -45,9 +44,10 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
     }
 
     @POST
-    @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Usuario entity) {
+    public String createUser(Usuario entity) {
+        String result = "Entidad nula";
+        
         if (entity != null){
             Query q = em.createNamedQuery("Usuario.findByUsrNombre");
             q.setParameter("usrNombre", entity.getUsrNombre());
@@ -58,15 +58,25 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
                 System.err.println("error "+ ex);
             }
             if (us == null ){
-                entity.setUsrFecCrea(new Date() );
-                entity.setUsrFecMod(new Date());
-                entity.setPrfId(perfil.findByCodigoPerfil("PC"));
-                super.create(entity);    
+                try {
+                    MessageDigest mdEnc = MessageDigest.getInstance("MD5"); 
+                    mdEnc.update(entity.getUsrPassword().getBytes(), 0, entity.getUsrPassword().length());
+                    String passMd5 = new BigInteger(1, mdEnc.digest()).toString(16); 
+                    entity.setUsrPassword(passMd5);
+                    entity.setUsrFecCrea(new Date() );
+                    entity.setUsrFecMod(new Date());
+                    entity.setPrfId(perfil.findByCodigoPerfil("PC"));
+                    super.create(entity);    
+                    result = "User created";
+                }catch( Exception ex){
+                    System.err.println("error" + ex);    
+                }
             }else{
+                result = "User name already exits";
                 System.err.println("User name already exits");
             }
         }
-        
+        return result;
     }
 
     @PUT
@@ -93,12 +103,33 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
 //    }
 
     @GET
-    @Path("{id}")
+    @Path("usuario/{user}/{pass}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Usuario find(@PathParam("id") Integer id) {
-//        return objToJson(super.find(id));
-        return  super.find(id) ;
+    public String findUserByNameAndPassword(@PathParam("user") String user, @PathParam("pass") String pass) {
+        String result = "false";
+        String passMd5 = null;
+        try {
+            MessageDigest mdEnc = MessageDigest.getInstance("MD5"); 
+            mdEnc.update(pass.getBytes(), 0, pass.length());
+            passMd5 = new BigInteger(1, mdEnc.digest()).toString(16); 
+            
+            if (user != null && passMd5 != null){
+                try{
+                    Query q = em.createNamedQuery("Usuario.findByNameAndPassword");
+                    q.setParameter("usrNombre", user);
+                    q.setParameter("usrPassword", passMd5 );
+                    q.getSingleResult();
+                    result = "true";// user and pass matches
+                }catch(Exception ex){
+                    System.err.println("error "+ ex);
+                }
+            }
+            
+        }catch(Exception ex){
+            System.err.println("error "+ ex);
+        }
         
+        return result;
     }
     
     @GET
