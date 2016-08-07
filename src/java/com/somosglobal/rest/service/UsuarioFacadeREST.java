@@ -49,8 +49,10 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
         String result = "Entidad nula";
         
         if (entity != null){
-            Query q = em.createNamedQuery("Usuario.findByUsrNombre");
+            Query q = em.createNamedQuery("Usuario.findByUsrNombreAndFbId");
             q.setParameter("usrNombre", entity.getUsrNombre());
+            q.setParameter("usrFacebookCredencial", entity.getUsrFacebookCredencial());
+            
             Usuario us = null;
             try{
                 us = (Usuario) q.getSingleResult();
