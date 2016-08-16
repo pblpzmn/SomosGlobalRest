@@ -68,20 +68,24 @@ public class CategoriaFacadeREST extends AbstractFacade<Categoria> {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Categoria> findAllSubCategory(@PathParam("nivel") String nivel, @PathParam("id") String id) {
         Query q = null;
-        int subStrinLimit = 0;
+        int subStringLimit = 0;
         if (nivel.equals("1")){
             q = em.createNamedQuery("Categoria.findSubCategoriaNivel1");
-            subStrinLimit = 2;
+            subStringLimit = 2;
         }
         if (nivel.equals("2")){
             q = em.createNamedQuery("Categoria.findSubCategoriaNivel2");
-            subStrinLimit = 4;
+            subStringLimit = 4;
+        }
+        if (nivel.equals("0")){
+            q = em.createNamedQuery("Categoria.findSubCategoriaNivel2");
+            subStringLimit = 2;
         }
         List<Categoria> cat2 = q.getResultList(); 
         List<Categoria> cat = new ArrayList<>();
         for(Categoria c: cat2 ){
 //            System.out.print("id: "+ c.getCatId() );
-            if (c.getCatId().substring(0,subStrinLimit).equals(id)){
+            if (c.getCatId().substring(0,subStringLimit).equals(id)){
                 System.out.println("added: "+ c.getCatId() );
                 cat.add(c);
             }

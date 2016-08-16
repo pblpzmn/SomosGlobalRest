@@ -6,8 +6,10 @@
 package com.somosglobal.rest.service;
 
 import com.somosglobal.entities.Actor;
+import com.somosglobal.entities.Categoria;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -32,6 +34,8 @@ public class ActorFacadeREST extends AbstractFacade<Actor> {
     @PersistenceContext(unitName = "SomosGlobalPU")
     private EntityManager em;
 
+    @Inject
+    private CategoriaFacadeREST categoria;
     
     public ActorFacadeREST() {
         super(Actor.class);
@@ -63,16 +67,21 @@ public class ActorFacadeREST extends AbstractFacade<Actor> {
     public Actor find(@PathParam("id") Integer id) {
         return super.find(id);
     }
+    
     @GET
     @Path("actor/{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Actor> findByCategory(@PathParam("id") String id) {
-        Query q = em.createNamedQuery("Actor.findByCatId");
-        q.setParameter("catId", id) ;        
+        List<Categoria> categorias =  categoria.findAllSubCategory("0", id);
+        System.err.println(categorias);
+        Query q = em.createNamedQuery("Actor.findByCatIdList");
+        q.setParameter("catIdList", categorias) ;        
         List<Actor> actors =  q.getResultList();
         return actors;
     }
 
+    
+    
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
