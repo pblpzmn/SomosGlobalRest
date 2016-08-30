@@ -42,6 +42,9 @@ public class ActorReferenciaFacadeREST extends AbstractFacade<ActorReferencia> {
     @Inject
     private ActorFacadeREST actor;
     
+    @Inject
+    private CategoriaFacadeREST category;
+    
     public ActorReferenciaFacadeREST() {
         super(ActorReferencia.class);
     }
@@ -83,6 +86,35 @@ public class ActorReferenciaFacadeREST extends AbstractFacade<ActorReferencia> {
             q.setParameter("idAct", foundActor) ;    
             q.setParameter("idCgList", catalogoList) ;        
             actorRef = (ActorReferencia) q.getSingleResult();
+        }catch(Exception ex){
+            System.err.println("error: " + ex);
+        }
+        return actorRef;
+//        return super.find(id);
+    }
+    
+    @GET
+    @Path("actorIdAndCatalogo/{actorId}/{catalogoId}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public ActorReferencia findByActorIdAndCategory(@PathParam("actorId") int actorId,  @PathParam("catalogoId") int catalogoId ) {
+        ActorReferencia actorRef = null;
+        try{
+            Actor foundActor = actor.find(actorId);
+            CatalogoGen foundCatalogo = catalogo.find(catalogoId);
+//            List<ActorReferencia> foundActorReferencia = findByActorId(actorId);
+//            for(ActorReferencia actRef :  foundActorReferencia){
+//                if (actRef.getIdAct().getCatId().getCatId().equals(catalogoId)){
+//                    actorRef = actRef;
+//                }
+//            }
+//            Actor foundActor = actor.find(actorId);
+//            Categoria foundCat = category.find(categoryId);
+            Query q = em.createNamedQuery("ActorReferencia.findByActorIdAndCatalogo");
+            q.setParameter("idAct", foundActor) ;    
+            q.setParameter("idCatalogo", foundCatalogo) ;     
+//            System.out.println("param"+ actorId+" "+ categoryId + "" +q);
+            actorRef = (ActorReferencia) q.getSingleResult();
+//            actorRef = q.getResultList();
         }catch(Exception ex){
             System.err.println("error: " + ex);
         }
