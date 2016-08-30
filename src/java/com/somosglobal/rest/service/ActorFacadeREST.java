@@ -37,6 +37,7 @@ public class ActorFacadeREST extends AbstractFacade<Actor> {
     @Inject
     private CategoriaFacadeREST categoria;
     
+    
     public ActorFacadeREST() {
         super(Actor.class);
     }
@@ -65,7 +66,7 @@ public class ActorFacadeREST extends AbstractFacade<Actor> {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Actor find(@PathParam("id") Integer id) {
-        return super.find(id);
+      return super.find(id);         
     }
     
     @GET

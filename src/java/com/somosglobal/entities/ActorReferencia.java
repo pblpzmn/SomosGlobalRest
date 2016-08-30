@@ -37,6 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ActorReferencia.findAll", query = "SELECT a FROM ActorReferencia a"),
     @NamedQuery(name = "ActorReferencia.findIdAct", query = "SELECT a FROM ActorReferencia a WHERE a.idAct.idAct = :idAct"),
     @NamedQuery(name = "ActorReferencia.findByIdAr", query = "SELECT a FROM ActorReferencia a WHERE a.idAr = :idAr"),
+    @NamedQuery(name = "ActorReferencia.findByIdActAndiNCatalogo", query = "SELECT a FROM ActorReferencia a WHERE a.idAct = :idAct AND a.idCg IN :idCgList"),
+    @NamedQuery(name = "ActorReferencia.findAllInCatalogo", query = "SELECT a FROM ActorReferencia a WHERE a.idCg IN :idCgList"),
     @NamedQuery(name = "ActorReferencia.findByVal1Ar", query = "SELECT a FROM ActorReferencia a WHERE a.val1Ar = :val1Ar"),
     @NamedQuery(name = "ActorReferencia.findByVal2Ar", query = "SELECT a FROM ActorReferencia a WHERE a.val2Ar = :val2Ar"),
     @NamedQuery(name = "ActorReferencia.findByVal3Ar", query = "SELECT a FROM ActorReferencia a WHERE a.val3Ar = :val3Ar"),

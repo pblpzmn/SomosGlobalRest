@@ -54,6 +54,10 @@ public class Categoria implements Serializable {
     @Size(max = 25)
     @Column(name = "cat_imagen")
     private String catImagen;
+    @Size(max = 25)
+    @Column(name = "cat_app_imagen")
+    private String catAppImagen;
+    
     @OneToMany(mappedBy = "catId")
     private Collection<Actor> actorCollection;
 
@@ -75,9 +79,15 @@ public class Categoria implements Serializable {
     public String getCatEstado() {
         return catEstado;
     }
-
+    
     public void setCatEstado(String catEstado) {
         this.catEstado = catEstado;
+    }
+    public String getCatAppImagen() {
+        return catAppImagen;
+    }
+    public void setCatAppImagen(String catAppImagen) {
+        this.catAppImagen = catAppImagen;
     }
 
     public String getCatNombre() {

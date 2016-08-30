@@ -8,7 +8,7 @@
 <body>
  <button id="categoriasJson" type="button">Lista Categorias json</button>
  </br>
- <button id="categoriasGjson" type="button">Lista Categorias Gjson</button>
+ <button id="actorJson" type="button">Lista actor id = 159</button>
  </br>
  <button id="usuariosJson" type="button">Lista Usuarios json</button>
 
@@ -34,10 +34,10 @@ $(document).ready(function(){
    });
   });
 
- $("#categoriasGjson").click(function(){
-    console.log( "categorias gjson" );
+ $("#actorJson").click(function(){
+    console.log( "categoria id 159" );
      $.ajax({
-       url: 'http://localhost:8080/SomosGlobal/webresources/com.somosglobal.rest.categoria/json',
+       url: 'http://localhost:8080/SomosGlobal/webresources/com.somosglobal.rest.actor/159',
        type: 'GET',
        dataType: 'json',
    //    data: 'extraparam=45869159&another=32',

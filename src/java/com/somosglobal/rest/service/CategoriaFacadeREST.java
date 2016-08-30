@@ -99,12 +99,15 @@ public class CategoriaFacadeREST extends AbstractFacade<Categoria> {
     public List<Categoria> findAll() {
         Query q = em.createNamedQuery("Categoria.findCategoriaPadre");
         List<Categoria> cat = q.getResultList();
+        List<Categoria> resultCat = new ArrayList<>();
         for(Categoria c: cat){
-            System.out.println("id: "+ c.getCatId() );
-                    
+            if (c.getCatEstado().equals("OK")){
+                resultCat.add(c);
+                System.out.println("id: "+ c.getCatId() );
+            }
         }
         
-        return cat;
+        return resultCat;
 //        return super.findAll();
     }
 

@@ -107,9 +107,10 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
     @GET
     @Path("usuario/{user}/{pass}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public String findUserByNameAndPassword(@PathParam("user") String user, @PathParam("pass") String pass) {
-        String result = "false";
+    public Usuario findUserByNameAndPassword(@PathParam("user") String user, @PathParam("pass") String pass) {
+//        String result = "false";
         String passMd5 = null;
+        Usuario us = null; 
         try {
             MessageDigest mdEnc = MessageDigest.getInstance("MD5"); 
             mdEnc.update(pass.getBytes(), 0, pass.length());
@@ -120,8 +121,8 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
                     Query q = em.createNamedQuery("Usuario.findByNameAndPassword");
                     q.setParameter("usrNombre", user);
                     q.setParameter("usrPassword", passMd5 );
-                    q.getSingleResult();
-                    result = "true";// user and pass matches
+                    us = (Usuario) q.getSingleResult();
+//                    result = "true";// user and pass matches
                 }catch(Exception ex){
                     System.err.println("error "+ ex);
                 }
@@ -131,7 +132,7 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
             System.err.println("error "+ ex);
         }
         
-        return result;
+        return us;
     }
     
     @GET
