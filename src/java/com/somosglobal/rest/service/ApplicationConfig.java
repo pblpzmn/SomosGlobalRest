@@ -31,20 +31,11 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.somosglobal.rest.service.ActorFacadeREST.class);
         resources.add(com.somosglobal.rest.service.ActorReferenciaFacadeREST.class);
-        resources.add(com.somosglobal.rest.service.ActorRolFacadeREST.class);
-        resources.add(com.somosglobal.rest.service.BarrioFacadeREST.class);
         resources.add(com.somosglobal.rest.service.CatalogoGenFacadeREST.class);
         resources.add(com.somosglobal.rest.service.CategoriaFacadeREST.class);
-        resources.add(com.somosglobal.rest.service.CategoriaProductoFacadeREST.class);
-        resources.add(com.somosglobal.rest.service.CiudadFacadeREST.class);
-        resources.add(com.somosglobal.rest.service.HobbieFacadeREST.class);
-        resources.add(com.somosglobal.rest.service.LocalidadFacadeREST.class);
-        resources.add(com.somosglobal.rest.service.MenuFacadeREST.class);
-        resources.add(com.somosglobal.rest.service.MenuPerfilFacadeREST.class);
-        resources.add(com.somosglobal.rest.service.ParametrosGenFacadeREST.class);
         resources.add(com.somosglobal.rest.service.PerfilFacadeREST.class);
-        resources.add(com.somosglobal.rest.service.ProvinciaFacadeREST.class);
-        resources.add(com.somosglobal.rest.service.TextoClaveFacadeREST.class);
+        resources.add(com.somosglobal.rest.service.PuntosActorFacadeREST.class);
+        resources.add(com.somosglobal.rest.service.TransaccionesActorFacadeREST.class);
         resources.add(com.somosglobal.rest.service.UsuarioFacadeREST.class);
     }
     
